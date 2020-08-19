@@ -1,0 +1,10 @@
+version: '2'
+services:
+  app:
+    container_name: storage_metrics
+    image: ikewai/storage_metrics:latest
+    environment:
+      - IKE_SERVER=
+      - IKE_TOKEN=
+      - METRICS_UUID=
+    command: python3 updateGatewayMetrics.py
