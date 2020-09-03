@@ -7,4 +7,11 @@ services:
       - IKE_SERVER=
       - IKE_TOKEN=
       - METRICS_UUID=
-    command: python3 updateGatewayMetrics.py
+    volumes:
+      - type: volume
+       source: /mnt/netapp/ikewai
+       target: /mnt/netapp/ikewai
+       volume:
+        read_only: true
+      - 
+    command: bash
