@@ -1,4 +1,4 @@
-version: '2'
+version: '3.1'
 services:
   app:
     container_name: storage_metrics
@@ -6,12 +6,7 @@ services:
     environment:
       - IKE_SERVER=
       - IKE_TOKEN=
-      - METRICS_UUID=
+      - METRICS_UUID=8750519299985248746-242ac1110-0001-012
     volumes:
-      - type: volume
-       source: /mnt/netapp/ikewai
-       target: /mnt/netapp/ikewai
-       volume:
-        read_only: true
-      - 
+      - "/mnt/netapp/ikewai:/mnt/netapp/ikewai:ro"
     command: bash
