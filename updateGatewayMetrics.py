@@ -24,10 +24,10 @@ requests.packages.urllib3.disable_warnings() # pylint: disable=no-member
 # End Constants
 
 # Begin Bash Command Definitions:
-sh__storage_space_all = "du -sh /mnt/netapp/ikewai | head -n1 | awk '{print $1;}'" # Storage Space used by All (integer of kibibytes)
-sh__storage_space_annotated = "du -sh /mnt/netapp/ikewai/annotated | head -n1 | awk '{print $1;}'" # Storage Space used by Annotated Data (integer of kibibytes)
-sh__file_count_all = "find /mnt/netapp/ikewai/annotated /mnt/netapp/ikewai/working -type f | wc -l" # File count in Annotated and Working (integer of files)
-sh__file_count_annotated = "find /mnt/netapp/ikewai/annotated -type f | wc -l" # File count in Annotated Data (integer of files)
+sh__storage_space_all = "du -sh /mnt/netapp/ikewai | head -n1 | awk '{print $1;}'" # Storage Space used by All (human-readable string eg. 4.9T)
+sh__storage_space_annotated = "du -sh /mnt/netapp/ikewai/annotated | head -n1 | awk '{print $1;}'" # Storage Space used by Annotated Data (human-readable string eg. 32G)
+sh__file_count_all = "find /mnt/netapp/ikewai/annotated /mnt/netapp/ikewai/working -type f | wc -l" # File count in Annotated and Working (integer of files eg. 302941)
+sh__file_count_annotated = "find /mnt/netapp/ikewai/annotated -type f | wc -l" # File count in Annotated Data (integer of files eg. 3505)
 # End Bash Command Definitions
 
 
