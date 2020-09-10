@@ -24,8 +24,8 @@ requests.packages.urllib3.disable_warnings() # pylint: disable=no-member
 # End Constants
 
 # Begin Bash Command Definitions:
-sh__storage_space_all = "du -s /mnt/netapp/ikewai | head -n1 | awk '{print $1;}'" # Storage Space used by All (integer of kibibytes)
-sh__storage_space_annotated = "du -s /mnt/netapp/ikewai/annotated | head -n1 | awk '{print $1;}'" # Storage Space used by Annotated Data (integer of kibibytes)
+sh__storage_space_all = "du -sh /mnt/netapp/ikewai | head -n1 | awk '{print $1;}'" # Storage Space used by All (integer of kibibytes)
+sh__storage_space_annotated = "du -sh /mnt/netapp/ikewai/annotated | head -n1 | awk '{print $1;}'" # Storage Space used by Annotated Data (integer of kibibytes)
 sh__file_count_all = "find /mnt/netapp/ikewai/annotated /mnt/netapp/ikewai/working -type f | wc -l" # File count in Annotated and Working (integer of files)
 sh__file_count_annotated = "find /mnt/netapp/ikewai/annotated -type f | wc -l" # File count in Annotated Data (integer of files)
 # End Bash Command Definitions
@@ -60,20 +60,23 @@ def getIkeDbDocument(ike_token, ike_api_url, ike_db_uuid):
 UsageData = getIkeDbDocument(ike_token=ike_token, ike_api_url=ike_api_url, ike_db_uuid=ike_db_uuid)
 print(UsageData)
 # Step 3: Modify UsageData in memory
-UsageData['allStorage']            = storage_space_all
-UsageData['annotatedStorage']      = storage_space_annotated
-UsageData['allFilesCount']         = file_count_all
-UsageData['annotatedFilescount']   = file_count_annotated
+UsageData['value']['allStorage']            = storage_space_all
+UsageData['value']['annotatedStorage']      = storage_space_annotated
+UsageData['value']['allFilesCount']         = file_count_all
+UsageData['value']['annotatedFilesCount']   = file_count_annotated
 
 # Step 4: Update UsageData in database
-def updateIkeDbDocument(ike_token, ike_api_url, ike_db_uuid):
+def updateIkeDbDocument(ike_token, ike_api_url, ike_db_uuid, usage_data):
+    print(ike_api_url)
+    print(ike_db_uuid)
+    print(usage_data)
     headers = {
         'authorization' : "Bearer " + ike_token,
         'content-type'  : "application/json"   ,
     }
     res = requests.post(
         ike_api_url+ike_db_uuid,
-        json        = UsageData,
+        json        = usage_data,
         headers     = headers,
         verify      = False
     )
@@ -83,6 +86,6 @@ def updateIkeDbDocument(ike_token, ike_api_url, ike_db_uuid):
     else:
         return resp
         
-usage_data_update_results = updateIkeDbDocument(ike_token=ike_token, ike_api_url=ike_api_url, ike_db_uuid=ike_db_uuid)
+usage_data_update_results = updateIkeDbDocument(ike_token=ike_token, ike_api_url=ike_api_url, ike_db_uuid=ike_db_uuid, usage_data=UsageData)
 
 print(usage_data_update_results)
